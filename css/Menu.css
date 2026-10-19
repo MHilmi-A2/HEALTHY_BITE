@@ -1,0 +1,373 @@
+/* Reset CSS Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4fbf4;
+    color: #2c3e50;
+}
+
+/* Header & Navigasi */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d2f0bd;
+    padding: 15px 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.logo-text {
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: #4a7c59;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    color: #2e6f40;
+    font-weight: bold;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #444;
+}
+
+.nav-icons i {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cart-icon-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.btn-masuk {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Container Utama */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Search Bar & Event Logger */
+.search-section {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#searchForm {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#searchInput {
+    width: 60%;
+    padding: 10px 15px;
+    border: 1px solid #a8dba8;
+    border-radius: 8px;
+    outline: none;
+}
+
+#searchForm button {
+    padding: 10px 20px;
+    background-color: #5c946e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.event-logger {
+    font-size: 13px;
+    color: #276738;
+    background-color: #e2f3e2;
+    padding: 8px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* Grid Menu Cards */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+}
+
+/* Card Makanan */
+.card {
+    display: flex;
+    background-color: #cbeab3;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    width: 45%;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    width: 55%;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.badge {
+    background-color: #bde09b;
+    color: #3b6124;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    width: fit-content;
+    font-weight: 600;
+}
+
+.card-body h3 {
+    font-size: 16px;
+    color: #1e3312;
+    margin-top: 5px;
+}
+
+.card-body .desc {
+    font-size: 11px;
+    color: #4f6343;
+    margin-bottom: 15px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2b4718;
+}
+
+.btn-arrow {
+    background-color: #437a22;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-arrow:hover {
+    background-color: #2d5416;
+}
+
+/* Popup Modal Keranjang Belanja */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.5); 
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 8% auto; 
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Daftar Item Keranjang & Tombol Batal */
+.cart-items-list {
+    margin: 20px 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.cart-item-group {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.cart-item-price {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Tombol Batal Per Item */
+.btn-cancel-item {
+    background-color: #ffeded;
+    color: #e74c3c;
+    border: 1px solid #f5c6cb;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel-item:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.empty-msg {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+}
+
+.cart-summary {
+    border-top: 2px solid #ddd;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+
+.cart-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* Tombol Aksi Bawah Modal */
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-cancel-all {
+    flex: 1;
+    padding: 12px;
+    background-color: #f8f9fa;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel-all:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-checkout {
+    flex: 1;
+    padding: 12px;
+    background-color: #437a22;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-checkout:hover {
+    background-color: #2d5416;
+}
