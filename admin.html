@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Healthy Bite</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-container">
+        <!-- ========== SIDEBAR ========== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../asset/Logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/40'">
+                <h2>HEALTHY<span>BITE</span></h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="admin.html" class="nav-item active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="categories/admin_pesanan.php" class="nav-item "><i class="fa-solid fa-cart-shopping"></i> Data Pesanan</a>
+                <a href="categories/admin_menu.php" class="nav-item"><i class="fa-solid fa-utensils"></i> Kelola Menu</a>
+                <a href="categories/admin_pelanggan.php" class="nav-item"><i class="fa-solid fa-users"></i> Data Pelanggan</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <!-- PERUBAHAN: Logout diproses oleh PHP di dalam folder categories. -->
+                <a href="categories/logout.php" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+            </div>
+        </aside>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="main-content">
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button id="menu-toggle" class="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+                    <h2>Dashboard Admin</h2>
+                </div>
+                <div class="topbar-right">
+                    <div class="notification">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="https://via.placeholder.com/40" alt="Admin Profil" class="avatar">
+                        <span>Admin Utama</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- KONTEN DASHBOARD -->
+            <div class="dashboard-content">
+                
+                <!-- Cards Rekap Data -->
+                <div class="cards-wrapper">
+                    <div class="card-stat">
+                        <div class="card-info">
+                            <h3>Total Pendapatan</h3>
+                            <p>Rp 4.520.000</p>
+                        </div>
+                        <div class="card-icon green-bg">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="card-stat">
+                        <div class="card-info">
+                            <h3>Pesanan Hari Ini</h3>
+                            <p>42 Pesanan</p>
+                        </div>
+                        <div class="card-icon blue-bg">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-stat">
+                        <div class="card-info">
+                            <h3>Total Pelanggan</h3>
+                            <p>128 Orang</p>
+                        </div>
+                        <div class="card-icon orange-bg">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabel Data Pesanan Terbaru -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Pesanan Terbaru</h3>
+                        <button class="btn-export"><i class="fa-solid fa-download"></i> Ekspor Data</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pesanan</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th>Menu Dipesan</th>
+                                    <th>Total Bayar</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#HB-1001</td>
+                                    <td>24 Okt 2026</td>
+                                    <td>Budi Santoso</td>
+                                    <td>Bulking Meal Plan Pro</td>
+                                    <td>Rp 30.000</td>
+                                    <td><span class="status status-proses">Diproses</span></td>
+                                    <td>
+                                        <button class="btn-action btn-acc" title="Selesaikan Pesanan" onclick="ubahStatus(this)"><i class="fa-solid fa-check"></i></button>
+                                        <button class="btn-action btn-del" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#HB-1002</td>
+                                    <td>24 Okt 2026</td>
+                                    <td>Siti Aminah</td>
+                                    <td>Bulking Meal Plan Lite</td>
+                                    <td>Rp 22.000</td>
+                                    <td><span class="status status-selesai">Selesai</span></td>
+                                    <td>
+                                        <button class="btn-action btn-del" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#HB-1003</td>
+                                    <td>23 Okt 2026</td>
+                                    <td>Andi Wijaya</td>
+                                    <td>Bulking Meal Plan Supreme</td>
+                                    <td>Rp 44.000</td>
+                                    <td><span class="status status-batal">Dibatalkan</span></td>
+                                    <td>
+                                        <button class="btn-action btn-del" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Script Sederhana untuk Interaksi Admin -->
+    <script>
+        // Toggle Sidebar untuk Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Simulasi Aksi Ubah Status Pesanan
+        function ubahStatus(btn) {
+            const row = btn.closest('tr');
+            const statusBadge = row.querySelector('.status');
+            
+            if(confirm('Tandai pesanan ini sebagai Selesai?')) {
+                statusBadge.className = 'status status-selesai';
+                statusBadge.innerText = 'Selesai';
+                btn.style.display = 'none'; // Sembunyikan tombol ceklis
+                alert('Status pesanan berhasil diperbarui!');
+            }
+        }
+    </script>
+</body>
+</html>

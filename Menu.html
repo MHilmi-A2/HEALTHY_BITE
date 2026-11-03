@@ -50,7 +50,7 @@
             <!-- Card 1 -->
             <div class="card" data-title="Bulking Meal Plan" data-price="22000">
                 <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop" alt="Bulking Meal Plan">
+                    <img src="asset/GH6.png" alt="Bulking Meal Plan">
                 </div>
                 <div class="card-body">
                     <span class="badge">Paling Populer</span>
@@ -66,7 +66,7 @@
             <!-- Card 2 -->
             <div class="card" data-title="Bulking Meal Plan Pro" data-price="30000">
                 <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop" alt="Bulking Meal Plan">
+                    <img src="asset/MG1.png" alt="Bulking Meal Plan">
                 </div>
                 <div class="card-body">
                     <span class="badge">Paling Populer</span>
@@ -82,7 +82,7 @@
             <!-- Card 3 -->
             <div class="card" data-title="Bulking Meal Plan Lite" data-price="22000">
                 <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop" alt="Bulking Meal Plan">
+                    <img src="asset/GH3.png" alt="Bulking Meal Plan">
                 </div>
                 <div class="card-body">
                     <span class="badge">Paling Populer</span>
@@ -98,7 +98,7 @@
             <!-- Card 4 -->
             <div class="card" data-title="Bulking Meal Plan Max" data-price="22000">
                 <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop" alt="Bulking Meal Plan">
+                    <img src="asset/GH5.png" alt="Bulking Meal Plan">
                 </div>
                 <div class="card-body">
                     <span class="badge">Paling Populer</span>
@@ -114,7 +114,7 @@
             <!-- Card 5 -->
             <div class="card" data-title="Bulking Meal Plan Supreme" data-price="22000">
                 <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop" alt="Bulking Meal Plan">
+                    <img src="asset/GH4.png" alt="Bulking Meal Plan">
                 </div>
                 <div class="card-body">
                     <span class="badge">Paling Populer</span>
@@ -146,8 +146,12 @@
 
             <!-- Tombol Aksi Pembelian & Batal -->
             <div class="modal-actions">
-                <button class="btn-cancel-all" id="clearCartBtn">Batal Semua Pesanan</button>
-                <button class="btn-checkout" id="checkoutBtn">Lanjutkan Pembayaran</button>
+                <button type="button" class="btn-cancel-all" id="clearCartBtn">Batal Semua Pesanan</button>
+                <!-- PERUBAHAN: Kirim data keranjang ke pemroses pesanan PHP. -->
+                <form id="checkoutForm" action="categories/order.php" method="POST">
+                    <input type="hidden" name="items" id="orderItems">
+                    <button type="submit" class="btn-checkout" id="checkoutBtn">Lanjutkan Pembayaran</button>
+                </form>
             </div>
         </div>
     </div>
@@ -278,14 +282,19 @@
         });
 
         document.getElementById('checkoutBtn').addEventListener('click', () => {
-            if (cart.length > 0) {
-                alert('Pesanan Anda berhasil dikirim!');
-                cart = [];
-                updateCartUI();
-                cartModal.style.display = 'none';
-            } else {
+            if (cart.length === 0) {
                 alert('Keranjang masih kosong!');
+                return;
             }
+
+            // PERUBAHAN: Kirim hanya nama menu dan jumlah; harga divalidasi kembali oleh PHP.
+            const itemsByTitle = cart.reduce((items, item) => {
+                items[item.title] = (items[item.title] || 0) + 1;
+                return items;
+            }, {});
+            document.getElementById('orderItems').value = JSON.stringify(
+                Object.entries(itemsByTitle).map(([title, quantity]) => ({ title, quantity }))
+            );
         });
     </script>
 </body>

@@ -42,14 +42,15 @@
                 <h2>Buat Akun Anda</h2>
                 <p class="subtitle">Silakan lengkapi data diri dibawa ini</p>
 
-                <form action="#" method="POST">
+                <!-- PERUBAHAN: Data registrasi diproses oleh endpoint PHP dalam folder categories. -->
+                <form action="categories/register.php" method="POST">
                     
                     <!-- Input Nama Lengkap -->
                     <div class="input-group">
                         <label for="nama">Nama Lengkap</label>
                         <div class="input-wrapper">
                             <span class="icon">&#128100;</span> <!-- Ikon User -->
-                            <input type="text" id="nama" placeholder="Masukkan Nama Lengkap" required>
+                            <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required>
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                         <label for="email">Email</label>
                         <div class="input-wrapper">
                             <span class="icon">&#9993;</span> <!-- Ikon Amplop -->
-                            <input type="email" id="email" placeholder="Email" required>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
                         </div>
                     </div>
 
@@ -67,7 +68,7 @@
                         <label for="password">Kata sandi</label>
                         <div class="input-wrapper">
                             <span class="icon">&#128274;</span> <!-- Ikon Gembok -->
-                            <input type="password" id="password" placeholder="Kata sandi" required>
+                            <input type="password" id="password" name="password" placeholder="Kata sandi" required>
                             <span class="toggle-password">&#128065;</span> <!-- Ikon Mata -->
                         </div>
                     </div>
@@ -77,21 +78,21 @@
                         <label for="confirm-password">Konfirmasi Kata sandi</label>
                         <div class="input-wrapper">
                             <span class="icon">&#128274;</span> <!-- Ikon Gembok -->
-                            <input type="password" id="confirm-password" placeholder="Konfirmasi Kata sandi" required>
+                            <input type="password" id="confirm-password" name="konfirmasi_password" placeholder="Konfirmasi Kata sandi" required>
                             <span class="toggle-password">&#128065;</span> <!-- Ikon Mata -->
                         </div>
                     </div>
 
                     <!-- Checkbox Syarat & Ketentuan -->
                     <div class="terms">
-                        <input type="checkbox" id="terms" required>
+                        <input type="checkbox" id="terms" name="terms" value="1" required>
                         <label for="terms">Saya menyetujui Syarat & Ketentuan serta Kebijakan Privasi.</label>
                     </div>
 
                     <!-- Tombol Submit -->
                     <button type="submit" class="btn-submit">Buat Akun ></button>
 
-                    <!-- Link ke Login.html -->
+                    <!-- PERUBAHAN: Tautan kembali ke halaman login HTML. -->
                     <p class="login-link">
                         sudah Punya Akun? <a href="Login.html">Masuk disini</a>
                     </p>
