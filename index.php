@@ -1,3 +1,15 @@
+<?php
+require_once __DIR__ . '/includes/bootstrap.php';
+
+if (($_SESSION['role'] ?? '') === 'customer') {
+  $statement = db()->prepare("SELECT 1 FROM tb_users WHERE id = :id AND status = 'Aktif'");
+  $statement->execute(['id' => (int) ($_SESSION['user_id'] ?? 0)]);
+  if (!$statement->fetchColumn()) {
+    $_SESSION = [];
+    session_regenerate_id(true);
+  }
+}
+?>
 <!doctype html>
 <html lang="id">
   <head>
@@ -5,31 +17,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Healthy Bite - Makanan Sehat</title>
     <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/toast.css" />
   </head>
   <body>
     <!-- Container untuk Toast / Snackbar -->
     <div id="toast-container"></div>
+    <?php render_flash_toast(); ?>
 
     <!-- ========== NAVBAR ========== -->
     <header class="navbar">
-      <div class="navbar-kiri">8
-        <img src="asset/logo.png" alt="Logo Healthy Bite" class="logo" />
+      <div class="navbar-kiri">
+        <img src="asset/Logo.png" alt="Logo Healthy Bite" class="logo" />
         <span class="teks-putih">HEALTHY</span>
         <span class="teks-hijau">BITE</span>
       </div>
 
       <nav class="navbar-tengah">
         <!-- DOM 1: Navigasi ktif -->
-        <a href="index.html" class="nav-link aktif">Home</a>
-        <a href="Menu.html" class="nav-link">Menu</a>
-        <a href="Program.html" class="nav-link">Program</a>
-        <a href="" class="nav-link">Tentang Kami</a>
+        <a href="index.php" class="nav-link aktif">Home</a>
+        <a href="Menu.php" class="nav-link">Menu</a>
+        <a href="#program" class="nav-link">Program</a>
+        <a href="#tentang" class="nav-link">Tentang Kami</a>
       </nav>
 
       <div class="navbar-kanan">
         <button class="ikon">Q</button>
         <button class="ikon">⬇</button>
-        <a href="Login.html" class="tombol-masuk" onclick="izinkanMasuk()">👤 Masuk</a>
+        <?php if (!empty($_SESSION['user_id'])): ?>
+          <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+            <a href="admin.php" class="user-greeting">Halo, <?= e($_SESSION['name'] ?? 'Admin') ?></a>
+            <a href="admin.php" class="tombol-masuk">Dashboard</a>
+          <?php else: ?>
+            <span class="user-greeting">Halo, <?= e($_SESSION['name'] ?? 'Pelanggan') ?></span>
+            <a href="transaction/my_orders.php" class="tombol-masuk">Pesanan Saya</a>
+          <?php endif; ?>
+          <form action="logout.php" method="post" class="home-logout">
+            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+            <button type="submit" class="tombol-masuk">Keluar</button>
+          </form>
+        <?php else: ?>
+          <a href="LoginPage.php" class="tombol-masuk" onclick="izinkanMasuk()">👤 Masuk</a>
+        <?php endif; ?>
       </div>
     </header>
 
@@ -125,7 +153,7 @@
       const navLinks = document.querySelectorAll(".nav-link");
       navLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
-          // Pindah halaman hanya jika href mengarah ke halaman lain (misal: "Menu.html")
+          // Pindah halaman hanya jika href mengarah ke halaman lain.
           const href = this.getAttribute("href");
 
           // Jika href bernilai '#' atau kosong, baru kita cegah fungsinya

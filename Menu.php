@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/includes/bootstrap.php';
+if (($_SESSION['role'] ?? '') === 'admin') {
+    header('Location: admin.php');
+    exit;
+}
+
+$menus = db()->query('SELECT id, photo, categories, price, calories, description FROM tb_categories WHERE is_available = 1 ORDER BY id')->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,10 +14,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthy Bite - Menu</title>
     <link rel="stylesheet" href="css/Menu.css">
+    <link rel="stylesheet" href="css/toast.css">
     <!-- FontAwesome untuk ikon header -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <?php render_flash_toast(); ?>
 
     <!-- Header / Navbar -->
     <header class="navbar">
@@ -16,8 +27,8 @@
             <span class="logo-text">HEALTHY <strong>BITE</strong></span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="Menu.html" class="active">Menu</a>
+            <a href="index.php">Home</a>
+            <a href="Menu.php" class="active">Menu</a>
             <a href="#">Program</a>
             <a href="#">Tentang Kami</a>
         </nav>
@@ -29,9 +40,16 @@
             <i class="fa-solid fa-magnifying-glass"></i>
             <i class="fa-solid fa-download"></i>
             <i class="fa-regular fa-bell"></i>
-            <button class="btn-masuk" onclick="window.location.href='Login.html'">
-                <i class="fa-regular fa-user"></i> Masuk
-            </button>
+            <?php if (!empty($_SESSION['user_id'])): ?>
+                <span class="user-greeting">Halo, <?= e($_SESSION['name'] ?? 'Pelanggan') ?></span>
+                <a href="transaction/my_orders.php">Pesanan Saya</a>
+                <form action="logout.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                    <button class="btn-masuk" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+                </form>
+            <?php else: ?>
+                <a class="btn-masuk" href="LoginPage.php"><i class="fa-regular fa-user"></i> Masuk</a>
+            <?php endif; ?>
         </div>
     </header>
 
@@ -47,85 +65,25 @@
         </div>
 
         <div class="menu-grid">
-            <!-- Card 1 -->
-            <div class="card" data-title="Bulking Meal Plan" data-price="22000">
-                <div class="card-image">
-                    <img src="asset/GH6.png" alt="Bulking Meal Plan">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Paling Populer</span>
-                    <h3>Bulking Meal Plan</h3>
-                    <p class="desc">Menu paling lengkap dengan 1400 kalori</p>
-                    <div class="card-footer">
-                        <span class="price">Mulai Rp22rb</span>
-                        <button class="btn-arrow add-to-cart-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            <?php foreach ($menus as $menu): ?>
+                <div class="card" data-id="<?= (int) $menu['id'] ?>" data-title="<?= e($menu['categories']) ?>" data-price="<?= e($menu['price']) ?>">
+                    <div class="card-image">
+                        <img src="asset/<?= e($menu['photo'] ?: 'Logo.png') ?>" alt="<?= e($menu['categories']) ?>">
+                    </div>
+                    <div class="card-body">
+                        <span class="badge"><?= (int) $menu['calories'] ?> kcal</span>
+                        <h3><?= e($menu['categories']) ?></h3>
+                        <p class="desc"><?= e($menu['description']) ?></p>
+                        <div class="card-footer">
+                            <span class="price">Rp <?= number_format((float) $menu['price'], 0, ',', '.') ?></span>
+                            <button type="button" class="btn-arrow add-to-cart-btn" aria-label="Tambah <?= e($menu['categories']) ?>"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="card" data-title="Bulking Meal Plan Pro" data-price="30000">
-                <div class="card-image">
-                    <img src="asset/MG1.png" alt="Bulking Meal Plan">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Paling Populer</span>
-                    <h3>Bulking Meal Plan Pro</h3>
-                    <p class="desc">Menu paling lengkap dengan 1400 kalori</p>
-                    <div class="card-footer">
-                        <span class="price">Mulai Rp30rb</span>
-                        <button class="btn-arrow add-to-cart-btn"><i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="card" data-title="Bulking Meal Plan Lite" data-price="22000">
-                <div class="card-image">
-                    <img src="asset/GH3.png" alt="Bulking Meal Plan">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Paling Populer</span>
-                    <h3>Bulking Meal Plan Lite</h3>
-                    <p class="desc">Menu paling lengkap dengan 1400 kalori</p>
-                    <div class="card-footer">
-                        <span class="price">Mulai Rp22rb</span>
-                        <button class="btn-arrow add-to-cart-btn"><i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="card" data-title="Bulking Meal Plan Max" data-price="22000">
-                <div class="card-image">
-                    <img src="asset/GH5.png" alt="Bulking Meal Plan">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Paling Populer</span>
-                    <h3>Bulking Meal Plan Max</h3>
-                    <p class="desc">Menu paling lengkap dengan 1400 kalori</p>
-                    <div class="card-footer">
-                        <span class="price">Mulai Rp22rb</span>
-                        <button class="btn-arrow add-to-cart-btn"><i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="card" data-title="Bulking Meal Plan Supreme" data-price="22000">
-                <div class="card-image">
-                    <img src="asset/GH4.png" alt="Bulking Meal Plan">
-                </div>
-                <div class="card-body">
-                    <span class="badge">Paling Populer</span>
-                    <h3>Bulking Meal Plan Supreme</h3>
-                    <p class="desc">Menu paling lengkap dengan 1400 kalori</p>
-                    <div class="card-footer">
-                        <span class="price">Mulai Rp22rb</span>
-                        <button class="btn-arrow add-to-cart-btn"><i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
+            <?php if ($menus === []): ?>
+                <p>Belum ada menu yang tersedia.</p>
+            <?php endif; ?>
         </div>
     </main>
 
@@ -145,14 +103,25 @@
             </div>
 
             <!-- Tombol Aksi Pembelian & Batal -->
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel-all" id="clearCartBtn">Batal Semua Pesanan</button>
-                <!-- PERUBAHAN: Kirim data keranjang ke pemroses pesanan PHP. -->
-                <form id="checkoutForm" action="categories/order.php" method="POST">
-                    <input type="hidden" name="items" id="orderItems">
+            <!-- PERUBAHAN: Kirim data keranjang ke pemroses pesanan PHP. -->
+            <form id="checkoutForm" action="transaction/order.php" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <input type="hidden" name="items" id="orderItems">
+                <div class="checkout-fields">
+                    <div class="checkout-field">
+                    <label for="phone">Nomor telepon</label>
+                    <input id="phone" name="phone" type="tel" required maxlength="20" autocomplete="tel">
+                    </div>
+                    <div class="checkout-field">
+                    <label for="address">Alamat pengiriman</label>
+                    <textarea id="address" name="address" required maxlength="1000" autocomplete="street-address"></textarea>
+                    </div>
+                </div>
+                <div class="checkout-actions">
+                    <button type="button" class="btn-cancel-all" id="clearCartBtn">Batal Semua Pesanan</button>
                     <button type="submit" class="btn-checkout" id="checkoutBtn">Lanjutkan Pembayaran</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -176,6 +145,12 @@
         searchInput.addEventListener('keydown', (e) => logEvent(`Keyboard 'keydown' - Tombol: '${e.key}'`));
         searchInput.addEventListener('keyup', () => logEvent(`Keyboard 'keyup' - Tombol dilepas`));
         searchInput.addEventListener('change', (e) => logEvent(`Formulir 'change' - Input: "${e.target.value}"`));
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLocaleLowerCase('id');
+            cards.forEach((card) => {
+                card.hidden = !card.dataset.title.toLocaleLowerCase('id').includes(query);
+            });
+        });
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
             logEvent(`Formulir 'submit' - Pencarian dikirim!`);
@@ -203,13 +178,13 @@
                 const title = card.dataset.title;
                 const price = parseInt(card.dataset.price);
 
-                addToCart(title, price);
+                addToCart(Number(card.dataset.id), title, price);
                 openModal();
             });
         });
 
-        function addToCart(title, price) {
-            cart.push({ title, price });
+        function addToCart(id, title, price) {
+            cart.push({ id, title, price });
             updateCartUI();
         }
 
@@ -281,19 +256,20 @@
             }
         });
 
-        document.getElementById('checkoutBtn').addEventListener('click', () => {
+        document.getElementById('checkoutForm').addEventListener('submit', (event) => {
             if (cart.length === 0) {
                 alert('Keranjang masih kosong!');
+                event.preventDefault();
                 return;
             }
 
             // PERUBAHAN: Kirim hanya nama menu dan jumlah; harga divalidasi kembali oleh PHP.
-            const itemsByTitle = cart.reduce((items, item) => {
-                items[item.title] = (items[item.title] || 0) + 1;
+            const itemsById = cart.reduce((items, item) => {
+                items[item.id] = (items[item.id] || 0) + 1;
                 return items;
             }, {});
             document.getElementById('orderItems').value = JSON.stringify(
-                Object.entries(itemsByTitle).map(([title, quantity]) => ({ title, quantity }))
+                Object.entries(itemsById).map(([id, quantity]) => ({ id, quantity }))
             );
         });
     </script>

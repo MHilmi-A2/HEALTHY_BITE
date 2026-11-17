@@ -81,6 +81,18 @@ body {
     gap: 6px;
 }
 
+.navbar form {
+    margin: 0;
+}
+
+.user-greeting {
+    font-size: 13px;
+}
+
+#checkoutForm {
+    display: block;
+}
+
 /* Container Utama */
 .container {
     max-width: 1200px;
@@ -226,25 +238,39 @@ body {
 
 /* Popup Modal Keranjang Belanja */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0,0,0,0.5); 
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 8% auto; 
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 480px;
+    margin: 4vh auto;
+    padding: 28px;
+    border-radius: 16px;
+    width: min(100%, 560px);
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.24);
+}
+
+.modal-content h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 28px;
+    color: #2c3e50;
+    font-size: 1.35rem;
+}
+
+.modal-content h2 i {
+    color: #437a22;
 }
 
 .close-btn {
@@ -262,8 +288,8 @@ body {
 
 /* Daftar Item Keranjang & Tombol Batal */
 .cart-items-list {
-    margin: 20px 0;
-    max-height: 220px;
+    margin: 16px 0;
+    max-height: 180px;
     overflow-y: auto;
 }
 
@@ -276,19 +302,23 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    gap: 14px;
+    padding: 12px 0;
     border-bottom: 1px solid #eee;
 }
 
 .cart-item-info {
     display: flex;
     flex-direction: column;
+    gap: 3px;
+    min-width: 0;
 }
 
 .cart-item-title {
     font-weight: 600;
     font-size: 14px;
     color: #333;
+    overflow-wrap: anywhere;
 }
 
 .cart-item-price {
@@ -320,31 +350,80 @@ body {
 }
 
 .cart-summary {
-    border-top: 2px solid #ddd;
-    padding-top: 10px;
-    margin-bottom: 15px;
+    border-top: 1px solid #e5e9e6;
+    padding-top: 12px;
+    margin-bottom: 18px;
 }
 
 .cart-summary p {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    gap: 12px;
+    margin-bottom: 7px;
+    color: #536273;
+    font-size: 0.9rem;
 }
 
-/* Tombol Aksi Bawah Modal */
-.modal-actions {
-    display: flex;
-    gap: 10px;
+.cart-summary p:last-child {
+    margin-bottom: 0;
 }
 
-.modal-actions form {
+.cart-summary strong {
+    color: #2c3e50;
+}
+
+.checkout-fields {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.checkout-field {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+    min-width: 0;
+}
+
+.checkout-field label {
+    color: #465466;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.checkout-field input,
+.checkout-field textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #d5ddd7;
+    border-radius: 8px;
+    background: #fff;
+    color: #2c3e50;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.checkout-field input:focus,
+.checkout-field textarea:focus {
+    border-color: #5c946e;
+    outline: 3px solid rgba(92, 148, 110, 0.15);
+}
+
+.checkout-field textarea {
+    min-height: 44px;
+    resize: vertical;
+}
+
+.checkout-actions {
     display: flex;
-    flex: 1;
+    gap: 12px;
 }
 
 .btn-cancel-all {
     flex: 1;
-    padding: 12px;
+    padding: 11px 14px;
     background-color: #f8f9fa;
     color: #dc3545;
     border: 1px solid #dc3545;
@@ -362,7 +441,7 @@ body {
 
 .btn-checkout {
     flex: 1;
-    padding: 12px;
+    padding: 11px 14px;
     background-color: #437a22;
     color: white;
     border: none;
@@ -375,4 +454,26 @@ body {
 
 .btn-checkout:hover {
     background-color: #2d5416;
+}
+
+@media (max-width: 600px) {
+    .modal {
+        padding: 12px;
+    }
+
+    .modal-content {
+        margin: 3vh auto;
+        padding: 22px 18px;
+    }
+
+    .checkout-fields {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .checkout-actions {
+        flex-direction: column-reverse;
+    }
 }

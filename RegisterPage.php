@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/includes/bootstrap.php';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,8 +9,10 @@
     <title>Buat Akun - Healthy Bite</title>
     <!-- Hanya menghubungkan ke file CSS lokal kita sendiri -->
     <link rel="stylesheet" href="css/Register.css">
+    <link rel="stylesheet" href="css/toast.css">
 </head>
 <body>
+    <?php render_flash_toast(); ?>
 
     <div class="container">
         
@@ -34,7 +39,7 @@
         <!-- SISI KANAN: Formulir Registrasi -->
         <div class="right-panel">
             
-            <a href="index.html" class="back-link">
+            <a href="index.php" class="back-link">
                 &#8592; kembali <!-- Kode Unicode untuk panah kiri -->
             </a>
 
@@ -43,7 +48,8 @@
                 <p class="subtitle">Silakan lengkapi data diri dibawa ini</p>
 
                 <!-- PERUBAHAN: Data registrasi diproses oleh endpoint PHP dalam folder categories. -->
-                <form action="categories/register.php" method="POST">
+                <form action="register.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                     
                     <!-- Input Nama Lengkap -->
                     <div class="input-group">
@@ -68,7 +74,7 @@
                         <label for="password">Kata sandi</label>
                         <div class="input-wrapper">
                             <span class="icon">&#128274;</span> <!-- Ikon Gembok -->
-                            <input type="password" id="password" name="password" placeholder="Kata sandi" required>
+                            <input type="password" id="password" name="password" placeholder="Kata sandi" minlength="8" required>
                             <span class="toggle-password">&#128065;</span> <!-- Ikon Mata -->
                         </div>
                     </div>
@@ -78,7 +84,7 @@
                         <label for="confirm-password">Konfirmasi Kata sandi</label>
                         <div class="input-wrapper">
                             <span class="icon">&#128274;</span> <!-- Ikon Gembok -->
-                            <input type="password" id="confirm-password" name="konfirmasi_password" placeholder="Konfirmasi Kata sandi" required>
+                            <input type="password" id="confirm-password" name="konfirmasi_password" placeholder="Konfirmasi Kata sandi" minlength="8" required>
                             <span class="toggle-password">&#128065;</span> <!-- Ikon Mata -->
                         </div>
                     </div>
@@ -94,7 +100,7 @@
 
                     <!-- PERUBAHAN: Tautan kembali ke halaman login HTML. -->
                     <p class="login-link">
-                        sudah Punya Akun? <a href="Login.html">Masuk disini</a>
+                        sudah Punya Akun? <a href="LoginPage.php">Masuk disini</a>
                     </p>
 
                 </form>

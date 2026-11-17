@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/includes/bootstrap.php';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,8 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Masuk - Healthy Bite</title>
   <link rel="stylesheet" href="css/Login.css">
+  <link rel="stylesheet" href="css/toast.css">
 </head>
 <body>
+  <?php render_flash_toast(); ?>
 
   <div class="login-wrapper">
 
@@ -40,7 +45,7 @@
     <div class="login-kanan">
 
       <!-- Tombol kembali -->
-      <a href="index.html" class="tombol-kembali">← kembali</a>
+      <a href="index.php" class="tombol-kembali">← kembali</a>
 
       <div class="form-wrapper">
         <p class="selamat">SELAMAT DATANG KEMBALI</p>
@@ -48,7 +53,8 @@
         <p class="sub">Lanjutkan perjalanan sehatmu bersama HealtyBite.</p>
 
         <!-- PERUBAHAN: Data login diproses oleh endpoint PHP dalam folder categories. -->
-        <form action="categories/login.php" method="POST">
+        <form action="login.php" method="POST">
+          <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
 
           <!-- Username -->
           <label for="username">Username/Email</label>
@@ -77,7 +83,7 @@
           <button type="submit" class="tombol-login">Masuk &gt;</button>
 
           <p class="belum-punya">
-            Belum punya akun? <a href="Register.html">Buat akun</a>
+            Belum punya akun? <a href="RegisterPage.php">Buat akun</a>
           </p>
         </form>
       </div>

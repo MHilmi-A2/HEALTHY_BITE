@@ -77,6 +77,21 @@ body {
   gap: 10px;
 }
 
+.user-greeting {
+  color: #355a1a;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.home-logout {
+  margin: 0;
+}
+
+.home-logout .tombol-masuk {
+  color: #333;
+}
+
 .ikon {
   background: transparent;
   border: none;
