@@ -193,6 +193,7 @@ body {
 
 .data-form input,
 .data-form textarea,
+.data-form select,
 .data-table input:not([type="checkbox"]),
 .data-table textarea,
 .data-table select,
@@ -209,6 +210,7 @@ body {
 
 .data-form input:focus,
 .data-form textarea:focus,
+.data-form select:focus,
 .data-table input:not([type="checkbox"]):focus,
 .data-table textarea:focus {
     border-color: #4caf50;
